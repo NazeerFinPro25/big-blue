@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BBI Marketing Hub</title>
+    <style>
+        :root { --bbi-blue: #004A99; --gold: #FFD700; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7fb; display: flex; justify-content: center; padding: 50px; }
+        .hub-container { width: 600px; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 8px solid var(--bbi-blue); text-align: center; }
+        .logo { width: 150px; margin-bottom: 20px; }
+        h1 { color: var(--bbi-blue); margin-bottom: 10px; }
+        .menu-list { text-align: left; margin-top: 30px; }
+        .menu-item { display: block; padding: 15px; margin-bottom: 10px; background: #f9f9f9; border-left: 5px solid var(--bbi-blue); text-decoration: none; color: #333; font-weight: bold; transition: 0.3s; }
+        .menu-item:hover { background: var(--bbi-blue); color: white; transform: translateX(10px); }
+        .status-tag { font-size: 10px; background: var(--gold); padding: 3px 8px; border-radius: 20px; float: right; color: #000; }
+    </style>
+</head>
+<body>
+    <div class="hub-container">
+        <img src="assets/brand/Logo_bbi.jpg" class="logo" alt="BBI Logo">
+        <h1>BBI Marketing Hub</h1>
+        <p>Access official brand assets and flyers</p>
+        
+        <div class="menu-list">
+            <a href="flyers/agent-network/index.html" class="menu-item">
+                Agent Introduction Flyer <span class="status-tag">LIVE</span>
+            </a>
+            <a href="#" class="menu-item" style="opacity: 0.5; cursor: not-allowed;">
+                Project Cargo Flyer <span class="status-tag" style="background:#ddd;">COMING SOON</span>
+            </a>
+            <a href="#" class="menu-item" style="opacity: 0.5; cursor: not-allowed;">
+                Shipping Quote Tool <span class="status-tag" style="background:#ddd;">PLANNED</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

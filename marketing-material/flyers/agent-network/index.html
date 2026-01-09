@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BBI - Official Agent Flyer A4</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bbi-blue: #004A99;
+            --canada-red: #D80621;
+            --gold-yellow: #FFD700;
+        }
+
+        /* Essential Print Fixes */
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            -webkit-print-color-adjust: exact; 
+            print-color-adjust: exact;         
+        }
+
+        body { 
+            background-color: #333; 
+            display: flex; 
+            justify-content: center; 
+            padding: 0; 
+            margin: 0;
+        }
+
+        /* A4 Page Container (210mm x 297mm) */
+        .page {
+            width: 210mm;
+            height: 297mm;
+            background: white;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Improved Watermark Visibility */
+        .watermark {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 75%;
+            opacity: 0.08; /* Increased visibility per Feroz's request */
+            z-index: 0;
+        }
+
+        .content-layer { 
+            position: relative; 
+            z-index: 1; 
+            height: 100%; 
+            display: flex; 
+            flex-direction: column; 
+        }
+
+        /* Header Strip */
+        header {
+            background-color: var(--bbi-blue) !important;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 5px solid var(--canada-red);
+        }
+
+        .logo-img { height: 70px; background: white; padding: 5px; border-radius: 4px; }
+
+        .header-text { text-align: right; }
+        .header-text h1 { color: white !important; font-size: 26px; letter-spacing: 1px; }
+        .header-text p { color: var(--gold-yellow) !important; font-weight: bold; font-size: 13px; text-transform: uppercase; }
+
+        /* Hero Area - Updated Tagline */
+        .hero-section {
+            height: 320px; 
+            background: url('hero.jpg') center/cover no-repeat !important;
+            position: relative;
+            display: flex;
+            align-items: center; 
+            justify-content: flex-start; 
+            padding-left: 45px;
+        }
+
+        .hero-text-box { text-align: left; }
+
+        .hero-text-box h2 { 
+            font-size: 34px; 
+            color: var(--gold-yellow) !important; 
+            margin-bottom: 8px; 
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.9); 
+        }
+        .hero-text-box p { 
+            color: white !important; 
+            font-size: 20px; 
+            font-weight: 600; 
+            letter-spacing: 0.5px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.9);
+        }
+
+        /* Core Strengths High-Visibility Line */
+        .strengths-bar {
+            background: #f1f4f8;
+            padding: 12px 40px;
+            border-bottom: 1px solid #dee2e6;
+            font-size: 12px;
+            color: var(--bbi-blue);
+            font-weight: 700;
+            text-align: center;
+        }
+
+        /* Content Grid */
+        .main-grid {
+            padding: 20px 40px;
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 20px;
+        }
+
+        h3 { color: var(--bbi-blue); font-size: 15px; text-transform: uppercase; margin-bottom: 10px; border-left: 4px solid var(--canada-red); padding-left: 10px; }
+
+        .content-box { margin-bottom: 10px; }
+        p, li { font-size: 12px; line-height: 1.4; color: #222; }
+        ul { list-style: none; }
+        li { margin-bottom: 5px; padding-left: 18px; position: relative; }
+        li::before { content: "✔"; color: var(--canada-red); position: absolute; left: 0; font-weight: bold; }
+
+        /* Compliance Box */
+        .compliance-box {
+            margin: 0 40px;
+            background: #f8f9fa !important;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* Call to Action Section */
+        .cta-section {
+            padding: 15px 40px;
+            text-align: center;
+            color: var(--bbi-blue);
+        }
+        .cta-section h4 { font-size: 16px; color: var(--canada-red); margin-bottom: 5px; }
+        .cta-section p { font-weight: 700; font-size: 13px; }
+
+        /* Membership Row */
+        .membership-row {
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white !important;
+            border-top: 1px solid #eee;
+        }
+        .membership-row img { height: 55px; object-fit: contain; } 
+        .membership-row img.ciffa-logo { height: 35px; } 
+
+        /* Footer Strip */
+        footer {
+            background-color: var(--bbi-blue) !important;
+            color: white !important;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-top: 4px solid var(--gold-yellow);
+        }
+
+        .footer-address { font-size: 11px; line-height: 1.5; color: white !important; }
+        .footer-address b { color: var(--gold-yellow) !important; font-size: 13px; display: block; margin-bottom: 4px; }
+        .footer-address p { color: white !important; }
+
+        .footer-social { text-align: right; }
+        .social-icons { margin-top: 10px; }
+        .social-icons a { color: white !important; font-size: 26px; margin-left: 18px; text-decoration: none; }
+
+        .web-link { font-size: 20px; color: var(--gold-yellow) !important; font-weight: bold; text-decoration: none; }
+
+        /* Print button */
+        .print-btn {
+            position: fixed; left: 20px; top: 20px;
+            padding: 12px 24px; background: var(--canada-red);
+            color: white; border: none; border-radius: 5px;
+            cursor: pointer; font-weight: bold; z-index: 1000;
+        }
+
+        @media print {
+            body { background: none; }
+            .print-btn { display: none; }
+            .page { box-shadow: none; margin: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="print-btn" onclick="window.print()">📥 SAVE AS PDF (A4)</button>
+
+    <div class="page">
+        <img src="../../assets/brand/Logo_bbi.jpg" class="watermark" alt="BBI Watermark">
+
+        <div class="content-layer">
+            <header>
+                <img src="../../assets/brand/Logo_bbi.jpg" class="logo-img" alt="BBI Logo">
+                <div class="header-text">
+                    <h1>BIG BLUE INC.</h1>
+                    <p>End-to-End Global Logistics. One Trusted Partner.</p>
+                </div>
+            </header>
+
+            <div class="hero-section">
+                <div class="hero-text-box">
+                    <h2>Your Trusted Canada-Based Agent Partner</h2>
+                    <p>Reliable. Transparent. Technology-Driven.</p>
+                </div>
+            </div>
+
+            <div class="strengths-bar">
+                CORE STRENGTHS: Imp/Exp handling Canada & USA, E-commerce, Import Console handling, DDP/DDU & Customs clearance, Final mile delivery.
+            </div>
+
+            <div class="main-grid">
+                <div class="content-box">
+                    <h3>WHY AGENTS CHOOSE BIG BLUE</h3>
+                    <ul>
+                        <li>Canada-based freight forwarder with a trusted global agent network</li>
+                        <li>Proven expertise in FCL, LCL, Air Freight & Project Cargo</li>
+                        <li>Strong hands-on experience with CN / CP rail, port terminals & inland operations</li>
+                        <li>Transparent pricing with proactive, real-time communication</li>
+                        <li>Personalized, hands-on service — not call-center logistics</li>
+                    </ul>
+                </div>
+
+                <div class="content-box">
+                    <h3>WHAT MAKES US DIFFERENT</h3>
+                    <p><b>Technology-Enabled Visibility:</b> Real-time tracking, digital documentation, and customer shipment visibility.</p>
+                    <p style="margin-top:5px;"><b>Operational Expertise:</b> Deep understanding of carriers, rail, ports, warehouses, and trucking coordination.</p>
+                    <p style="margin-top:5px;"><b>Single Point of Accountability:</b> One partner managing your entire door-to-door logistics flow.</p>
+                    <p style="margin-top:5px;"><b>Risk-Aware Planning:</b> Proactive issue prevention to reduce delays and unnecessary costs.</p>
+                </div>
+            </div>
+
+            <div class="compliance-box">
+                <div>
+                    <h3 style="font-size: 13px;">Trade Compliance & Regulatory</h3>
+                    <ul>
+                        <li>AMS / ISF filing for USA</li>
+                        <li>eManifest / ACI filing for Canada</li>
+                        <li>Single entry or annual bond for US-bound</li>
+                        <li>CARM portal setup and RPP bond</li>
+                    </ul>
+                </div>
+                <div style="margin-top: 10px;">
+                    <ul>
+                        <li>ACE & CERS / B13 filing for export shipments</li>
+                        <li>Customs compliance & duty/tax assessment</li>
+                        <li>Business registration & trade consultancy</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <h4>Looking for a reliable Canadian partner?</h4>
+                <p>Let’s build transparent relationships and strong lanes together — contact Big Blue Inc. today.</p>
+            </div>
+
+            <div class="membership-row">
+                <img src="../../assets/membership/WCA.jpg" alt="WCA World">
+                <img src="../../assets/membership/WCA_risk.jpg" alt="WCA Risk Managed">
+                <img src="../../assets/membership/partner_pay.jpg" alt="Partner Pay">
+                <img src="../../assets/membership/CBASA.jpg" alt="CBASA">
+                <img src="../../assets/membership/fmc.jpg" alt="FMC">
+                <img src="../../assets/membership/CIFFA.jpg" class="ciffa-logo" alt="CIFFA">
+            </div>
+
+            <footer>
+                <div class="footer-address">
+                    <b>BIG BLUE INC. - TORONTO HEADQUARTERS</b>
+                    <p>2550 Argentia Road, Mississauga, ON, L5N 5R1 Canada</p>
+                    <p>T: +1-289-835-7593</p>
+                    <p><b>salessupport@bigblueinc.ca</b></p>
+                    <p><b>customerservice@bigblueinc.ca</b></p>
+                </div>
+                <div class="footer-social">
+                    <a href="http://bigblueinc.ca" class="web-link">www.bigblueinc.ca</a>
+                    <div class="social-icons">
+                        <a href="https://www.linkedin.com/company/big-blue-inc" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://www.facebook.com/profile.php?id=61564974818518" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="https://www.instagram.com/bigblue_inc?igsh=bXBkMnBjZzlwNWFi&utm_source=qr" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+</body>
+</html>
