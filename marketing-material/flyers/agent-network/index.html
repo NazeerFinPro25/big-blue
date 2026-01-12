@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>BBI - Official Agent Flyer A4</title>
+    <!-- FontAwesome for Social Media Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -45,14 +46,14 @@
             flex-direction: column;
         }
 
-        /* Improved Watermark Visibility */
+        /* Watermark */
         .watermark {
             position: absolute;
             top: 55%;
             left: 50%;
             transform: translate(-50%, -50%);
             width: 75%;
-            opacity: 0.08; /* Increased visibility per Feroz's request */
+            opacity: 0.08; 
             z-index: 0;
         }
 
@@ -80,7 +81,7 @@
         .header-text h1 { color: white !important; font-size: 26px; letter-spacing: 1px; }
         .header-text p { color: var(--gold-yellow) !important; font-weight: bold; font-size: 13px; text-transform: uppercase; }
 
-        /* Hero Area - Updated Tagline */
+        /* Hero Area */
         .hero-section {
             height: 320px; 
             background: url('hero.jpg') center/cover no-repeat !important;
@@ -107,7 +108,7 @@
             text-shadow: 2px 2px 5px rgba(0,0,0,0.9);
         }
 
-        /* Core Strengths High-Visibility Line */
+        /* Core Strengths - Pipe Separators */
         .strengths-bar {
             background: #f1f4f8;
             padding: 12px 40px;
@@ -117,13 +118,18 @@
             font-weight: 700;
             text-align: center;
         }
+        .separator {
+            color: var(--canada-red);
+            margin: 0 8px;
+            font-weight: 900;
+        }
 
         /* Content Grid */
         .main-grid {
             padding: 20px 40px;
             display: grid;
             grid-template-columns: 1fr 1.1fr;
-            gap: 20px;
+            gap: 25px;
         }
 
         h3 { color: var(--bbi-blue); font-size: 15px; text-transform: uppercase; margin-bottom: 10px; border-left: 4px solid var(--canada-red); padding-left: 10px; }
@@ -131,8 +137,38 @@
         .content-box { margin-bottom: 10px; }
         p, li { font-size: 12px; line-height: 1.4; color: #222; }
         ul { list-style: none; }
-        li { margin-bottom: 5px; padding-left: 18px; position: relative; }
-        li::before { content: "✔"; color: var(--canada-red); position: absolute; left: 0; font-weight: bold; }
+        
+        /* Base List Style */
+        li { margin-bottom: 6px; padding-left: 18px; position: relative; }
+
+        /* List 1: Checkmarks for "Why Agents Choose" */
+        .check-list li::before { 
+            content: "✔"; 
+            color: var(--canada-red); 
+            position: absolute; 
+            left: 0; 
+            font-weight: bold; 
+        }
+
+        /* List 2: Squares for "What Makes Us Different" */
+        .square-list li::before {
+            content: "▪"; 
+            color: var(--canada-red); 
+            position: absolute; 
+            left: 0; 
+            font-size: 18px; /* Larger square */
+            line-height: 12px;
+        }
+
+        /* List 3: Triangles for "Compliance" */
+        .compliance-list li::before {
+            content: "▶"; 
+            color: var(--bbi-blue); 
+            position: absolute; 
+            left: 2px; 
+            font-size: 10px;
+            top: 3px;
+        }
 
         /* Compliance Box */
         .compliance-box {
@@ -146,26 +182,29 @@
             gap: 15px;
         }
 
-        /* Call to Action Section */
+        /* Call to Action */
         .cta-section {
-            padding: 15px 40px;
+            padding: 12px 40px;
             text-align: center;
             color: var(--bbi-blue);
         }
         .cta-section h4 { font-size: 16px; color: var(--canada-red); margin-bottom: 5px; }
         .cta-section p { font-weight: 700; font-size: 13px; }
 
-        /* Membership Row */
+        /* Membership Row - MAXIMIZED LOGOS */
         .membership-row {
-            padding: 10px 40px;
+            padding: 5px 40px; /* Reduced padding to allow logos to be bigger */
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: white !important;
             border-top: 1px solid #eee;
+            height: 85px; /* Fixed height container to control layout */
         }
-        .membership-row img { height: 55px; object-fit: contain; } 
-        .membership-row img.ciffa-logo { height: 35px; } 
+        /* Increased logo size significantly per request */
+        .membership-row img { height: 65px; object-fit: contain; } 
+        /* CIFFA kept proportional */
+        .membership-row img.ciffa-logo { height: 40px; } 
 
         /* Footer Strip */
         footer {
@@ -208,6 +247,7 @@
     <button class="print-btn" onclick="window.print()">📥 SAVE AS PDF (A4)</button>
 
     <div class="page">
+        <!-- Watermark -->
         <img src="../../assets/brand/Logo_bbi.jpg" class="watermark" alt="BBI Watermark">
 
         <div class="content-layer">
@@ -226,14 +266,15 @@
                 </div>
             </div>
 
+            <!-- Core Strengths with Pipe Separators -->
             <div class="strengths-bar">
-                CORE STRENGTHS: Imp/Exp handling Canada & USA, E-commerce, Import Console handling, DDP/DDU & Customs clearance, Final mile delivery.
+                CORE STRENGTHS: Imp/Exp handling Canada & USA <span class="separator">|</span> E-commerce <span class="separator">|</span> Import Console handling <span class="separator">|</span> DDP/DDU & Customs clearance <span class="separator">|</span> Final mile delivery
             </div>
 
             <div class="main-grid">
                 <div class="content-box">
                     <h3>WHY AGENTS CHOOSE BIG BLUE</h3>
-                    <ul>
+                    <ul class="check-list">
                         <li>Canada-based freight forwarder with a trusted global agent network</li>
                         <li>Proven expertise in FCL, LCL, Air Freight & Project Cargo</li>
                         <li>Strong hands-on experience with CN / CP rail, port terminals & inland operations</li>
@@ -244,17 +285,21 @@
 
                 <div class="content-box">
                     <h3>WHAT MAKES US DIFFERENT</h3>
-                    <p><b>Technology-Enabled Visibility:</b> Real-time tracking, digital documentation, and customer shipment visibility.</p>
-                    <p style="margin-top:5px;"><b>Operational Expertise:</b> Deep understanding of carriers, rail, ports, warehouses, and trucking coordination.</p>
-                    <p style="margin-top:5px;"><b>Single Point of Accountability:</b> One partner managing your entire door-to-door logistics flow.</p>
-                    <p style="margin-top:5px;"><b>Risk-Aware Planning:</b> Proactive issue prevention to reduce delays and unnecessary costs.</p>
+                    <!-- Converted to List with Square Bullets -->
+                    <ul class="square-list">
+                        <li><b>Technology-Enabled Visibility:</b> Real-time tracking, digital documentation, and customer shipment visibility.</li>
+                        <li><b>Operational Expertise:</b> Deep understanding of carriers, rail, ports, warehouses, and trucking coordination.</li>
+                        <li><b>Single Point of Accountability:</b> One partner managing your entire door-to-door logistics flow.</li>
+                        <li><b>Risk-Aware Planning:</b> Proactive issue prevention to reduce delays and unnecessary costs.</li>
+                    </ul>
                 </div>
             </div>
 
             <div class="compliance-box">
                 <div>
                     <h3 style="font-size: 13px;">Trade Compliance & Regulatory</h3>
-                    <ul>
+                    <!-- Compliance List with Triangle Bullets -->
+                    <ul class="compliance-list">
                         <li>AMS / ISF filing for USA</li>
                         <li>eManifest / ACI filing for Canada</li>
                         <li>Single entry or annual bond for US-bound</li>
@@ -262,7 +307,7 @@
                     </ul>
                 </div>
                 <div style="margin-top: 10px;">
-                    <ul>
+                    <ul class="compliance-list">
                         <li>ACE & CERS / B13 filing for export shipments</li>
                         <li>Customs compliance & duty/tax assessment</li>
                         <li>Business registration & trade consultancy</li>
@@ -275,6 +320,7 @@
                 <p>Let’s build transparent relationships and strong lanes together — contact Big Blue Inc. today.</p>
             </div>
 
+            <!-- Maximized Membership Logos -->
             <div class="membership-row">
                 <img src="../../assets/membership/WCA.jpg" alt="WCA World">
                 <img src="../../assets/membership/WCA_risk.jpg" alt="WCA Risk Managed">
