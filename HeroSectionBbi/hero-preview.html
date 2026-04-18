@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Big Blue Inc. — Hero Section Preview</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #02044f;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    /* ── Review Banner ── */
+    .review-banner {
+      background: #D80621;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 9999;
+    }
+
+    /* ── Hero Section ── */
+    .hero-section {
+      height: 100vh;
+      width: 100%;
+      position: relative;
+      margin-top: 36px;
+    }
+
+    .swiper { height: 100%; width: 100%; }
+
+    .swiper-slide {
+      height: 100vh;
+      width: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+    }
+
+    /* Video bg */
+    .slide-video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    /* Overlay */
+    .slide-overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 2;
+      pointer-events: none;
+      background: linear-gradient(
+        to bottom,
+        rgba(2,4,79,0.70) 0%,
+        rgba(2,4,79,0.50) 60%,
+        rgba(2,4,79,1.00) 100%
+      );
+    }
+
+    /* Slide content */
+    .slide-content {
+      position: relative;
+      z-index: 10;
+      padding: 32px 220px;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide-title {
+      font-size: clamp(28px, 4.5vw, 58px);
+      font-weight: 900;
+      margin-bottom: 20px;
+      line-height: 1.15;
+      text-shadow: 0 3px 16px rgba(0,0,0,0.7);
+      min-height: 70px;
+    }
+
+    .slide-subtitle {
+      font-size: clamp(16px, 1.8vw, 22px);
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .slide-subtitle p { margin-bottom: 8px; }
+    .slide-subtitle .bold { font-weight: 800; font-size: clamp(18px, 2vw, 24px); margin-bottom: 10px; }
+    .slide-subtitle .large { font-size: clamp(32px, 5vw, 64px); font-weight: 900; color: #86cde9; }
+
+    /* ── Pagination dots ── */
+    .custom-pagination {
+      position: absolute;
+      bottom: 5%;
+      left: 0; right: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 30;
+      gap: 10px;
+    }
+
+    .dot-btn {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.5);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      padding: 0;
+    }
+    .dot-btn.active {
+      background: #004A99;
+      border-color: #004A99;
+      transform: scale(1.3);
+    }
+
+    /* ── Pause/Play ── */
+    .pause-btn {
+      position: absolute;
+      bottom: calc(5% - 2px);
+      right: 24px;
+      z-index: 50;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.45);
+      background: rgba(2,4,79,0.75);
+      backdrop-filter: blur(8px);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s ease;
+    }
+    .pause-btn:hover { transform: scale(1.1); border-color: rgba(255,255,255,0.9); }
+    .pause-btn.paused { background: rgba(216,6,33,0.85); }
+
+    /* ── Flyer Cards shared ── */
+    .flyer-card {
+      position: absolute;
+      top: calc(50% + 48px);
+      transform: translateY(-50%);
+      z-index: 30;
+      width: 180px;
+      cursor: pointer;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.5);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+    }
+    .flyer-card:hover {
+      transform: translateY(-50%) scale(1.04);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.7);
+    }
+    .flyer-card-left  { left: 18px; }
+    .flyer-card-right { right: 18px; }
+
+    /* Card body */
+    .card-white { background: white; padding: 12px 12px 0 12px; }
+    .card-blue  { background: #004A99; padding: 12px 12px 0 12px; }
+
+    .card-header-white {
+      border-bottom: 2px solid #004A99;
+      padding-bottom: 7px; margin-bottom: 8px;
+    }
+    .card-header-blue {
+      border-bottom: 2px solid #D80621;
+      padding-bottom: 8px; margin-bottom: 8px;
+    }
+
+    .card-brand-blue  { font-size: 11px; font-weight: 900; color: #004A99; line-height: 1.3; }
+    .card-brand-white { font-size: 11px; font-weight: 900; color: white; line-height: 1.3; }
+    .card-tag-red   { font-size: 8px; color: #D80621; font-weight: 700; text-transform: uppercase; }
+    .card-tag-gold  { font-size: 9px; color: #D80621; font-weight: 700; text-transform: uppercase; }
+
+    .card-hero-blue {
+      background: #004A99; margin: 0 -12px;
+      padding: 9px 12px; margin-bottom: 8px;
+    }
+    .card-hero-title { font-size: 9.5px; font-weight: 800; color: white; line-height: 1.4; margin-bottom: 4px; }
+    .card-hero-sub   { font-size: 8.5px; color: #FFC72C; font-weight: 700; }
+    .card-hero-sub-gold { font-size: 8.5px; color: #FFD700; font-weight: 700; }
+
+    .card-icons {
+      background: #004A99; margin: 0 -12px;
+      padding: 5px 10px; margin-bottom: 8px;
+      display: flex; justify-content: space-around;
+    }
+    .card-icons span { font-size: 11px; }
+
+    .card-list { padding-bottom: 8px; }
+    .card-list-item {
+      display: flex; gap: 6px; margin-bottom: 5px; align-items: flex-start;
+    }
+    .bullet-red   { color: #D80621; font-size: 10px; flex-shrink: 0; font-weight: 900; }
+    .bullet-check { color: #D80621; font-size: 10px; flex-shrink: 0; font-weight: 900; }
+    .card-item-text-dark  { font-size: 9px; color: #111; line-height: 1.3; }
+    .card-item-text-light { font-size: 9px; color: rgba(255,255,255,0.92); line-height: 1.3; }
+
+    .card-box-grey {
+      background: #f8f9fa; border-radius: 5px;
+      padding: 7px 9px; margin-bottom: 10px;
+      border: 1px solid #e0e0e0;
+    }
+    .card-box-glass {
+      background: rgba(255,255,255,0.08);
+      border-radius: 5px; padding: 7px 9px; margin-bottom: 10px;
+    }
+    .card-box-title-blue { font-size: 8.5px; color: #004A99; font-weight: 800; margin-bottom: 4px; text-transform: uppercase; }
+    .card-box-title-gold { font-size: 8.5px; color: #FFD700; font-weight: 800; margin-bottom: 4px; text-transform: uppercase; }
+    .card-box-item-dark  { font-size: 8.5px; color: #333; margin-bottom: 3px; border-left: 2px solid #004A99; padding-left: 5px; }
+    .card-box-item-light { font-size: 8.5px; color: rgba(255,255,255,0.82); margin-bottom: 3px; }
+
+    .card-footer-blue {
+      background: #004A99; border-top: 2px solid #FFC72C;
+      padding: 5px 12px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .card-footer-gold {
+      background: #004A99; border-top: 2px solid #FFD700;
+      padding: 5px 12px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .card-footer-loc { font-size: 8px; color: rgba(255,255,255,0.65); }
+    .card-footer-web { font-size: 8px; color: rgba(255,255,255,0.45); }
+
+    .card-btn {
+      background: #004A99; padding: 10px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      transition: background 0.3s ease;
+    }
+    .flyer-card:hover .card-btn { background: #D80621; }
+    .card-btn span {
+      font-size: 11px; font-weight: 800; color: white;
+      letter-spacing: 1px; text-transform: uppercase;
+    }
+    .card-btn .normal-label { display: inline; }
+    .card-btn .hover-label  { display: none; }
+    .flyer-card:hover .card-btn .normal-label { display: none; }
+    .flyer-card:hover .card-btn .hover-label  { display: inline; }
+
+    /* ── Typewriter cursor ── */
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .cursor { animation: blink 1s infinite; }
+  </style>
+</head>
+<body>
+
+  <!-- Review Banner -->
+  <div class="review-banner">
+    🔍 INTERNAL REVIEW ONLY — Big Blue Inc. Hero Section Draft — Not Live
+  </div>
+
+  <div class="hero-section">
+
+    <!-- Swiper -->
+    <div class="swiper" id="heroSwiper">
+      <div class="swiper-wrapper">
+
+        <!-- SLIDE 1 — Why Big Blue -->
+        <div class="swiper-slide">
+          <video class="slide-video" src="./2.mp4" autoplay loop muted playsinline></video>
+          <div class="slide-overlay"></div>
+          <div class="slide-content">
+            <div class="slide-title" id="title-0"></div>
+            <div class="slide-subtitle">
+              <div style="text-align:left; display:inline-block;">
+                <p>✔ Canada-based freight forwarder with global agent network</p>
+                <p>✔ Expertise in FCL, LCL, Air &amp; Project Cargo</p>
+                <p>✔ Strong experience with CN / CP rail &amp; port operations</p>
+                <p>✔ Transparent pricing &amp; proactive communication</p>
+                <p>✔ Personalized service (not call-center logistics)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 2 — Technology Driven -->
+        <div class="swiper-slide">
+          <video class="slide-video" src="./1.mp4" autoplay loop muted playsinline></video>
+          <div class="slide-overlay"></div>
+          <div class="slide-content">
+            <div class="slide-title" id="title-1"></div>
+            <div class="slide-subtitle">
+              <p class="bold">Complete Door-to-Door Visibility. One Click. Total Control.</p>
+              <p>Real-time shipment tracking, customer login access, and end-to-end visibility across ocean, air, trucking, customs, and final delivery.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 3 — One Window Solution -->
+        <div class="swiper-slide">
+          <video class="slide-video" src="./3.mp4" autoplay loop muted playsinline></video>
+          <div class="slide-overlay"></div>
+          <div class="slide-content">
+            <div class="slide-title" id="title-2"></div>
+            <div class="slide-subtitle">
+              <p class="bold">One Logistics Partner. One Window. Complete Door-to-Door Solutions.</p>
+              <p>From buyer consolidation and ocean freight to customs, inland delivery, and final mile — Big Blue manages your entire supply chain under one roof.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 4 — Ocean Freight -->
+        <div class="swiper-slide">
+          <video class="slide-video" src="./4.mp4" autoplay loop muted playsinline></video>
+          <div class="slide-overlay"></div>
+          <div class="slide-content">
+            <div class="slide-title" id="title-3"></div>
+            <div class="slide-subtitle">
+              <p>Buyer consolidation, LCL consolidation, garment-on-hanger solutions, break bulk, project cargo and full container services — managed with precision from origin to destination.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 5 — Global Forwarding -->
+        <div class="swiper-slide">
+          <video class="slide-video" src="./2.mp4" autoplay loop muted playsinline></video>
+          <div class="slide-overlay"></div>
+          <div class="slide-content">
+            <div class="slide-title" id="title-4"></div>
+            <div class="slide-subtitle">
+              <p class="bold">• Ocean • Air • Ground • Customs • Door-to-Door • Warehousing • E-Commerce • Project Cargo</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 6 — Think Big Move Blue -->
+        <div class="swiper-slide">
+          <video class="slide-video" src="./1.mp4" autoplay loop muted playsinline></video>
+          <div class="slide-overlay"></div>
+          <div class="slide-content">
+            <div class="slide-title" id="title-5"></div>
+            <div class="slide-subtitle">
+              <p class="large">Move Blue.</p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end swiper-wrapper -->
+    </div><!-- end swiper -->
+
+    <!-- Agent Flyer Card — LEFT -->
+    <a class="flyer-card flyer-card-left" href="../../../public/marketing-material/flyers/agent-network/index.html" target="_blank">
+      <div class="card-white">
+        <div class="card-header-white">
+          <div class="card-brand-blue">BIG BLUE INC.</div>
+          <div class="card-tag-red">Global Logistics Partner</div>
+        </div>
+        <div class="card-hero-blue">
+          <div class="card-hero-title">Your Trusted Canada-Based Agent Partner</div>
+          <div class="card-hero-sub-gold">Reliable. Transparent. Technology-Driven.</div>
+        </div>
+        <div class="card-icons">
+          <span>⚓</span><span>✈️</span><span>🚂</span><span>🚚</span><span>📋</span><span>⚖️</span>
+        </div>
+        <div class="card-list">
+          <div class="card-list-item"><span class="bullet-check">✔</span><span class="card-item-text-dark">Canada-based global agent network</span></div>
+          <div class="card-list-item"><span class="bullet-check">✔</span><span class="card-item-text-dark">FCL, LCL, Air &amp; Project Cargo</span></div>
+          <div class="card-list-item"><span class="bullet-check">✔</span><span class="card-item-text-dark">CN/CP rail &amp; port expertise</span></div>
+          <div class="card-list-item"><span class="bullet-check">✔</span><span class="card-item-text-dark">Transparent pricing &amp; real-time comms</span></div>
+        </div>
+        <div class="card-box-grey">
+          <div class="card-box-title-blue">🛡️ Trade Compliance</div>
+          <div class="card-box-item-dark">AMS/ISF · eManifest · CARM</div>
+          <div class="card-box-item-dark">B13 Filing · DDP/DDU</div>
+        </div>
+      </div>
+      <div class="card-footer-gold">
+        <span class="card-footer-loc">Mississauga, ON</span>
+        <span class="card-footer-web">bigblueinc.ca</span>
+      </div>
+      <div class="card-btn">
+        <span><span class="normal-label">📄 Partner Network</span><span class="hover-label">↗ Open Flyer</span></span>
+      </div>
+    </a>
+
+    <!-- Client Flyer Card — RIGHT -->
+    <a class="flyer-card flyer-card-right" href="../../../public/marketing-material/flyers/clients-network/index.html" target="_blank">
+      <div class="card-white">
+        <div class="card-header-white">
+          <div class="card-brand-blue">BIG BLUE INC.</div>
+          <div class="card-tag-red">Think Big. Move Blue.</div>
+        </div>
+        <div class="card-hero-blue">
+          <div class="card-hero-title">Simplifying Global Shipping for Canadian &amp; U.S. Importers</div>
+          <div class="card-hero-sub">Fast · Reliable · Transparent</div>
+        </div>
+        <div class="card-icons">
+          <span>🚢</span><span>✈️</span><span>🚂</span><span>🚚</span><span>📋</span><span>📦</span>
+        </div>
+        <div class="card-list">
+          <div class="card-list-item"><span class="bullet-red">•</span><span class="card-item-text-dark">Single Point of Contact</span></div>
+          <div class="card-list-item"><span class="bullet-red">•</span><span class="card-item-text-dark">True One-Window Solution</span></div>
+          <div class="card-list-item"><span class="bullet-red">•</span><span class="card-item-text-dark">Real Human Support 24/7</span></div>
+          <div class="card-list-item"><span class="bullet-red">•</span><span class="card-item-text-dark">Real-Time Track &amp; Trace</span></div>
+          <div class="card-list-item"><span class="bullet-red">•</span><span class="card-item-text-dark">Transparent Pricing</span></div>
+        </div>
+        <div class="card-box-grey">
+          <div class="card-box-title-blue">🌐 Major Trade Lanes</div>
+          <div class="card-box-item-dark">China · SE Asia · India</div>
+          <div class="card-box-item-dark">Pakistan · Europe → Canada</div>
+        </div>
+      </div>
+      <div class="card-footer-blue">
+        <span class="card-footer-loc">Mississauga, ON</span>
+        <span class="card-footer-web">bigblueinc.ca</span>
+      </div>
+      <div class="card-btn">
+        <span><span class="normal-label">📄 Shipping Solutions</span><span class="hover-label">↗ Open Flyer</span></span>
+      </div>
+    </a>
+
+    <!-- Pagination Dots -->
+    <div class="custom-pagination" id="pagination"></div>
+
+    <!-- Pause / Play -->
+    <button class="pause-btn" id="pauseBtn" onclick="togglePause()" title="Pause/Play slideshow">⏸</button>
+
+  </div><!-- end hero-section -->
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    // ── Slide titles ──
+    const titles = [
+      'Why Big Blue?',
+      'Technology Driven + Visibility Focused',
+      'One-Window Solution',
+      'Ocean Freight Specialists',
+      'Global Freight Forwarding & Logistics Solutions You Can Trust',
+      'Think Big.',
+    ];
+
+    // ── Typewriter ──
+    let typewriterTimer = null;
+    function typewrite(elementId, text, speed = 40) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      el.innerHTML = '';
+      let i = 0;
+      clearInterval(typewriterTimer);
+      typewriterTimer = setInterval(() => {
+        if (i < text.length) {
+          el.innerHTML = text.slice(0, i + 1) + '<span class="cursor">|</span>';
+          i++;
+        } else {
+          el.innerHTML = text;
+          clearInterval(typewriterTimer);
+        }
+      }, speed);
+    }
+
+    // ── Swiper init ──
+    const swiper = new Swiper('#heroSwiper', {
+      loop: true,
+      autoplay: { delay: 8000, disableOnInteraction: false },
+      on: {
+        slideChange: function () { onSlideChange(this.realIndex); },
+        afterInit:   function () { onSlideChange(this.realIndex); },
+      }
+    });
+
+    // ── On slide change ──
+    function onSlideChange(index) {
+      typewrite('title-' + index, titles[index]);
+      updateDots(index);
+    }
+
+    // ── Pagination ──
+    const pag = document.getElementById('pagination');
+    titles.forEach((_, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'dot-btn' + (i === 0 ? ' active' : '');
+      btn.onclick = () => swiper.slideToLoop(i);
+      pag.appendChild(btn);
+    });
+
+    function updateDots(index) {
+      document.querySelectorAll('.dot-btn').forEach((b, i) => {
+        b.classList.toggle('active', i === index);
+      });
+    }
+
+    // ── Pause / Play ──
+    let paused = false;
+    function togglePause() {
+      const btn = document.getElementById('pauseBtn');
+      if (paused) {
+        swiper.autoplay.start();
+        btn.textContent = '⏸';
+        btn.classList.remove('paused');
+      } else {
+        swiper.autoplay.stop();
+        btn.textContent = '▶';
+        btn.classList.add('paused');
+      }
+      paused = !paused;
+    }
+  </script>
+</body>
+</html>

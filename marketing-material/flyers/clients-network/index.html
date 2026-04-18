@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BBI - Direct Customer Flyer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bbi-blue: #004A99;
+            --bbi-dark: #002a5c;
+            --canada-red: #D80621;
+            --gold: #FFC72C;
+        }
+
+        @page { size: A4; margin: 0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        
+        body { background: #333; display: flex; justify-content: center; margin: 0; padding: 0; }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            position: relative;
+            overflow: visible;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* WATERMARK */
+        .watermark {
+            position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%);
+            width: 80%; opacity: 0.03; z-index: 0; pointer-events: none;
+        }
+
+        .content { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; }
+
+        /* HEADER */
+        header {
+            background: white;
+            padding: 10px 40px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--bbi-blue);
+            flex-shrink: 0;
+        }
+        .logo-img { height: 55px; }
+        .header-tagline { 
+            text-align: right; 
+            color: var(--bbi-blue); 
+            font-weight: 800; 
+            font-size: 13px; 
+            text-transform: uppercase;
+        }
+
+        /* HERO - Original Colors (Overlay Removed) */
+        .hero {
+            height: 185px;
+            background: url('hero_clients.jpg') center center no-repeat;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 40px;
+            position: relative;
+            flex-shrink: 0;
+        }
+        /* REMOVED .hero::after block here to disable the blue overlay */
+        
+        .hero-content { position: relative; z-index: 3; max-width: 650px; }
+        .hero-content h2 {
+            color: white; font-size: 30px; line-height: 1.1; margin-bottom: 8px;
+            font-weight: 800; 
+            text-transform: uppercase;
+            /* INCREASED SHADOW INTENSITY FOR READABILITY */
+            text-shadow: 2px 2px 15px rgba(0,0,0,0.95); 
+        }
+        .hero-content p {
+            color: var(--gold); font-weight: 700; font-size: 16px; letter-spacing: 0.5px;
+            /* INCREASED SHADOW INTENSITY FOR READABILITY */
+            text-shadow: 2px 2px 10px rgba(0,0,0,1.0);
+        }
+
+        /* SERVICE STRIP */
+        .service-strip {
+            background: var(--bbi-blue);
+            padding: 8px 40px;
+            display: flex; justify-content: space-between; color: white;
+            flex-shrink: 0;
+        }
+        .service-item { font-size: 10px; font-weight: 600; display: flex; align-items: center; }
+        .service-item i { color: var(--gold); margin-right: 6px; font-size: 11px; }
+
+        /* MAIN CONTENT */
+        .grid-container {
+            display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 25px;
+            padding: 12px 40px 0 40px;
+            flex-grow: 1;
+        }
+
+        h3 {
+            font-size: 15px; color: var(--bbi-dark); border-bottom: 2px solid var(--gold);
+            padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase;
+        }
+
+        .benefit-list { list-style: none; }
+        .benefit-list li {
+            margin-bottom: 8px; font-size: 12.5px; color: #111;
+            position: relative; padding-left: 28px; line-height: 1.3;
+        }
+        .benefit-list li i {
+            position: absolute; left: 0; top: 3px; color: var(--canada-red); 
+            font-size: 14px; width: 18px; text-align: center;
+        }
+        .benefit-list strong { color: var(--bbi-blue); font-weight: 800; }
+
+        .card {
+            background: #f8f9fa; border: 1px solid #e0e0e0; padding: 12px;
+            border-radius: 6px; margin-bottom: 12px;
+        }
+        .card-title {
+            color: var(--bbi-blue); font-weight: 800; font-size: 12px;
+            margin-bottom: 8px; display: flex; align-items: center;
+        }
+        .card-title i { margin-right: 8px; color: var(--gold); }
+        
+        .compact-list { list-style: none; display: grid; grid-template-columns: 1fr; gap: 4px; }
+        .compact-list li { font-size: 12px; color: #111; font-weight: 600; display: flex; align-items: center; }
+        .compact-list li::before { content: "•"; color: var(--bbi-blue); margin-right: 6px; font-weight: bold; }
+
+        .trade-lanes { font-size: 11.5px; color: #111; font-weight: 600; }
+        .lane { margin-bottom: 5px; border-left: 3px solid var(--bbi-blue); padding-left: 10px; }
+        .lane b { color: var(--bbi-dark); display: block; margin-bottom: 2px; }
+
+        /* COMPLIANCE SECTION */
+        .comp-section-title {
+            text-align: center; font-size: 13px; color: var(--bbi-blue); font-weight: 800;
+            text-transform: uppercase; margin: 8px 40px 8px 40px; 
+            padding-bottom: 5px; border-bottom: 1px solid #eee; flex-shrink: 0;
+        }
+        .compliance-circles {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            padding: 0 40px 10px 40px; flex-shrink: 0;
+        }
+        .circle-badge {
+            width: 85px; display: flex; flex-direction: column; align-items: center; text-align: center;
+        }
+        .circle-icon {
+            width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--bbi-blue);
+            display: flex; align-items: center; justify-content: center; 
+            color: var(--bbi-blue); font-size: 18px; margin-bottom: 6px; background: #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .circle-text { font-size: 10px; font-weight: 800; color: var(--bbi-dark); text-transform: uppercase; line-height: 1.2; }
+
+        /* MEMBERSHIP ROW */
+        .membership-row {
+            padding: 8px 40px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: white; border-top: 1px solid #eee;
+            flex-shrink: 0;
+            margin-top: auto; 
+        }
+        .membership-row img { height: 45px; object-fit: contain; } 
+        .membership-row .ciffa-logo { height: 30px; } 
+
+        /* FOOTER */
+        footer {
+            background-color: var(--bbi-blue) !important;
+            color: white !important;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 4px solid var(--gold);
+            flex-shrink: 0;
+        }
+        .footer-left { text-align: left; }
+        .footer-left b { color: var(--gold) !important; font-size: 12px; display: block; margin-bottom: 4px; }
+        .footer-left p { font-size: 10px; line-height: 1.4; color: white !important; }
+
+        .footer-right { text-align: right; }
+        .web-link { font-size: 18px; color: var(--gold) !important; font-weight: bold; text-decoration: none; display: block; margin-bottom: 8px; }
+        .social-icons a { color: white !important; font-size: 24px; margin-left: 15px; text-decoration: none; }
+
+        .print-btn { position: fixed; top: 20px; right: 20px; background: var(--canada-red); color: white; padding: 10px 20px; border: none; cursor: pointer; border-radius: 5px; font-weight: bold; z-index: 999; }
+        @media print { .print-btn { display: none; } body { background: none; } .page { box-shadow: none; } }
+    </style>
+</head>
+<body>
+
+    <button class="print-btn" onclick="window.print()">📥 Download Flyer (PDF)</button>
+
+    <div class="page">
+        <img src="../../assets/brand/Logo_bbi.jpg" class="watermark" alt="Watermark">
+
+        <div class="content">
+            <header>
+                <img src="../../assets/brand/Logo_bbi.jpg" class="logo-img" alt="Big Blue Inc">
+                <div class="header-tagline">
+                    Big Blue Inc. END-TO-END LOGISTICS.<br>
+                    <span style="color: var(--canada-red);">Think Big Move Blue.</span>
+                </div>
+            </header>
+
+            <div class="hero">
+                <div class="hero-content">
+                    <h2>Simplifying Global Shipping for Canadian & U.S. Importers and Exporters</h2>
+                    <p>Fast. Reliable. Transparent. Human-Driven. Tech Enabled.</p>
+                </div>
+            </div>
+
+            <div class="service-strip">
+                <div class="service-item"><i class="fas fa-ship"></i> Ocean Freight</div>
+                <div class="service-item"><i class="fas fa-plane"></i> Air Freight</div>
+                <div class="service-item"><i class="fas fa-truck"></i> Rail & Trucking</div>
+                <div class="service-item"><i class="fas fa-warehouse"></i> Warehousing</div>
+                <div class="service-item"><i class="fas fa-file-contract"></i> Customs Clearance</div>
+                <div class="service-item"><i class="fas fa-box-open"></i> DDP Solutions</div>
+            </div>
+
+            <div class="grid-container">
+                <div>
+                    <h3>WHY IMPORTERS & EXPORTERS CHOOSE BIG BLUE</h3>
+                    <ul class="benefit-list">
+                        <li><i class="fas fa-id-badge"></i><strong>Single Point of Contact:</strong> One dedicated expert handles everything.</li>
+                        <li><i class="fas fa-window-restore"></i><strong>True One-Window Solution:</strong> Freight + Customs + Trucking + Delivery.</li>
+                        <li><i class="fas fa-headset"></i><strong>Real Human Support:</strong> Professionals who know your shipments.</li>
+                        <li><i class="fas fa-history"></i><strong>24/7 Availability:</strong> We are there whenever your cargo needs attention.</li>
+                        <li><i class="fas fa-bolt"></i><strong>Fast Responses – Guaranteed:</strong> Quick replies to emails and phone calls.</li>
+                        <li><i class="fas fa-map-marker-alt"></i><strong>Real-Time Track & Trace:</strong> Full visibility from pickup to final delivery.</li>
+                        <li><i class="fas fa-file-contract"></i><strong>Incoterms Consultancy:</strong> Expert guidance on the best Incoterm.</li>
+                        <li><i class="fas fa-hand-holding-usd"></i><strong>Cost Optimization Experts:</strong> Practical advice to reduce logistics expenses.</li>
+                        <li><i class="fas fa-list-ol"></i><strong>Multiple Options – You Decide:</strong> We provide options that fit your needs.</li>
+                        <li><i class="fas fa-search-dollar"></i><strong>Transparent Pricing:</strong> No hidden charges, no surprises.</li>
+                    </ul>
+                </div>
+
+                <div style="padding-top: 25px;">
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-anchor"></i> OCEAN FREIGHT SPECIALISTS</div>
+                        <ul class="compact-list">
+                            <li>FCL (Full Container)</li>
+                            <li>LCL (Less than Load)</li>
+                            <li>Import Consoles</li>
+                            <li>Buyer Consoles</li>
+                            <li>OOG / Project Cargo</li>
+                            <li>Dangerous Goods</li>
+                            <li>Reefer Cargo</li>
+                            <li>Break Bulk</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-globe-asia"></i> MAJOR TRADE LANES</div>
+                        <div class="trade-lanes">
+                            <div class="lane"><b>Greater China Region:</b> Shanghai, Ningbo, Shenzhen, Qingdao, Guangzhou, Hong Kong</div>
+                            <div class="lane"><b>South East Asia:</b> Singapore, Malaysia, Thailand, Vietnam, Indonesia</div>
+                            <div class="lane"><b>Indian Subcontinent:</b> India, Pakistan, Bangladesh, Sri Lanka</div>
+                            <div class="lane"><b>Europe to Canada and USA:</b> United Kingdom, Germany, Netherlands, France, Italy, Spain, Belgium, Poland</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comp-section-title">COMPLIANCE & REGULATORY EXPERTISE</div>
+            <div class="compliance-circles">
+                <div class="circle-badge">
+                    <div class="circle-icon"><i class="fas fa-file-invoice"></i></div>
+                    <div class="circle-text">AMS/ISF Filing</div>
+                </div>
+                <div class="circle-badge">
+                    <div class="circle-icon"><i class="fas fa-list-alt"></i></div>
+                    <div class="circle-text">eManifest / ACI</div>
+                </div>
+                <div class="circle-badge">
+                    <div class="circle-icon"><i class="fas fa-laptop-code"></i></div>
+                    <div class="circle-text">CARM Portal</div>
+                </div>
+                <div class="circle-badge">
+                    <div class="circle-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div class="circle-text">RPP Bond</div>
+                </div>
+                <div class="circle-badge">
+                    <div class="circle-icon"><i class="fas fa-stamp"></i></div>
+                    <div class="circle-text">Customs Clearance</div>
+                </div>
+                <div class="circle-badge">
+                    <div class="circle-icon"><i class="fas fa-box-open"></i></div>
+                    <div class="circle-text">DDP Services</div>
+                </div>
+            </div>
+
+            <div class="membership-row">
+                <img src="../../assets/membership/WCA.jpg" alt="WCA World">
+                <img src="../../assets/membership/WCA_risk.jpg" alt="WCA Risk Managed">
+                <img src="../../assets/membership/partner_pay.jpg" alt="Partner Pay">
+                <img src="../../assets/membership/CBASA.jpg" alt="CBASA">
+                <img src="../../assets/membership/fmc.jpg" alt="FMC">
+                <img src="../../assets/membership/CIFFA.jpg" class="ciffa-logo" alt="CIFFA">
+            </div>
+
+            <footer>
+                <div class="footer-left">
+                    <b>BIG BLUE INC. - TORONTO HEADQUARTERS</b>
+                    <p>2550 Argentia Road, Mississauga, ON, L5N 5R1 Canada</p>
+                    <p>T: +1-289-835-7593</p>
+                    <p>salessupport@bigblueinc.ca</p>
+                    <p>customerservice@bigblueinc.ca</p>
+                </div>
+                <div class="footer-right">
+                    <a href="http://bigblueinc.ca" class="web-link">www.bigblueinc.ca</a>
+                    <div class="social-icons">
+                        <a href="https://www.linkedin.com/company/big-blue-inc" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://www.facebook.com/profile.php?id=61564974818518" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="https://www.instagram.com/bigblueinc" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </footer>
+
+        </div><!-- end .content -->
+    </div><!-- end .page -->
+
+</body>
+</html>
