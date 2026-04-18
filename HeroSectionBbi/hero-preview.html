@@ -127,6 +127,35 @@
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
     }
+
+    @media (max-width: 1024px) {
+      .slide-content { padding: 32px 210px; }
+      .flyer-card { width: 150px; }
+    }
+
+    @media (max-width: 768px) {
+      .slide-content { padding: 80px 16px 60px; }
+      .flyer-card { display: none; }
+      .navbar-links { padding: 10px 20px; gap: 16px; }
+      .navbar-links a { font-size: 14px; }
+      .navbar-contact { display: none; }
+      .slide-title { min-height: 50px; }
+      .slide-subtitle { font-size: 14px; }
+      .slide-subtitle .large { font-size: clamp(28px, 8vw, 48px); }
+      .slide-subtitle .bold { font-size: 16px; }
+      .social-fixed { bottom: 60px; }
+      .footer { padding: 32px 20px 20px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+      .footer-logo { display: none; }
+      .navbar { padding: 0 16px; height: 60px; }
+      .navbar-logo img { height: 50px; width: 50px; }
+    }
+
+    @media (max-width: 480px) {
+      .navbar-links { gap: 12px; padding: 8px 16px; }
+      .navbar-links a { font-size: 13px; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
     .slide-title {
       font-size: clamp(28px, 4.5vw, 58px);
       font-weight: 900; margin-bottom: 20px;
